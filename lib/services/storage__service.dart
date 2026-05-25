@@ -1,26 +1,20 @@
+import 'dart:convert';
 import 'package:i12_into_012/models/app_state.dart';
-import 'package:i12_into_012/models/todo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
+  static const _key = 'app_state';
 
-  void saveAppState(AppState state) {
-    //todo implement
+  Future<void> saveAppState(AppState state) async {
+    final prefs = await SharedPreferences.getInstance();
+    final json = jsonEncode(state.toJason());
+    await prefs.setString(_key, json);
   }
 
-  AppState loadAppState() => AppState(
-    todos: [
-      Todo(
-        id: 'a',
-        text: 'Zeug reinbringen',
-        isCompleted: false,
-      ),
-      Todo(
-        id: 'b',
-        text: 'Hausaufgaben machen',
-        isCompleted: true,
-      ),
-    ],
-    isDarkMode: false,
-    asksForDeletionConfirmation: true,
-  );
+  Future<AppState?> loadAppState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final json = prefs.getString(_key);
+    if (json == null) return null;
+    return AppState.fromJason(jsonDecode(json) as Map<String, dynamic>);
+  }
 }

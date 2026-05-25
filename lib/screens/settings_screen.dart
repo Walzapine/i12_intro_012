@@ -30,13 +30,38 @@ class SettingsScreen extends ConsumerWidget {
                     'DarkMode',
                   ),
                 ),
-                Switch(value: appState.isDarkMode, onChanged:(bool newValue) {
+                Switch(
+                  value: appState.isDarkMode,
+                  onChanged: (bool newValue) {
                     appStateNotifier.toggleDarkmode();
-  },),
+                  },
+                ),
               ],
             ),
           ),
-        ]
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            child: Row(
+              children: <Widget>[
+                const Expanded(
+                  child: Text('Löschen bestätigen'),
+                ),
+                Switch(
+                  value: appState.asksForDeletionConfirmation,
+                  onChanged: (bool newValue) {
+                    appStateNotifier.toggleDeletionConfirmation();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

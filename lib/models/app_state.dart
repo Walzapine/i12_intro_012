@@ -1,7 +1,6 @@
 import 'package:i12_into_012/models/todo.dart';
 
 class AppState {
-
   final List<Todo> todos;
   final bool isDarkMode;
   final bool asksForDeletionConfirmation;
@@ -13,14 +12,17 @@ class AppState {
   });
 
   Map<String, dynamic> toJason() => {
-    //...
+    'todos': todos.map((t) => t.toJson()).toList(),
+    'isDarkMode': isDarkMode,
+    'asksForDeletionConfirmation': asksForDeletionConfirmation,
   };
 
   factory AppState.fromJason(Map<String, dynamic> json) => AppState(
-    //....
-    todos: [],
-    isDarkMode: false,
-    asksForDeletionConfirmation: true,
+    todos: (json['todos'] as List)
+        .map((t) => Todo.fromJson(t as Map<String, dynamic>))
+        .toList(),
+    isDarkMode: json['isDarkMode'] as bool,
+    asksForDeletionConfirmation: json['asksForDeletionConfirmation'] as bool,
   );
 
   AppState copyWith({
@@ -31,6 +33,7 @@ class AppState {
     //ergibt sich automatisch
     todos: todos ?? this.todos,
     isDarkMode: isDarkMode ?? this.isDarkMode,
-    asksForDeletionConfirmation: asksForDeletionConfirmation ?? this.asksForDeletionConfirmation,
+    asksForDeletionConfirmation:
+        asksForDeletionConfirmation ?? this.asksForDeletionConfirmation,
   );
 }

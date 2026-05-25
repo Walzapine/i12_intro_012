@@ -3,21 +3,22 @@ class Todo {
   final String text;
   final bool isCompleted;
 
-  Todo ({
+  Todo({
     required this.id,
     required this.text,
     required this.isCompleted,
   });
 
   Map<String, dynamic> toJson() => {
-    //muss ich mir herleiten
+    'id': id,
+    'text': text,
+    'isCompleted': isCompleted,
   };
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
-    //muss ich mir herleiten
-    id:'',
-    text: '',
-    isCompleted:false,
+    id: json['id'] as String,
+    text: json['text'] as String,
+    isCompleted: json['isCompleted'] as bool,
   );
 
   Todo copyWith({
